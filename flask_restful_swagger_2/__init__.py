@@ -359,7 +359,11 @@ class Schema(dict):
 
     @classmethod
     def definitions(cls):
-        return {k: v for k, v in cls.__dict__.items() if not k.startswith('_')}
+        return {k: v for k, v in cls.__dict__.items()
+                if not k.startswith('_')
+                if not callable(v)
+                if not isinstance(v, classmethod)
+                if not isinstance(v, property)}
 
     @classmethod
     def array(cls):
